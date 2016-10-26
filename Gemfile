@@ -7,6 +7,7 @@ ruby '2.3.1'
 
 # Database
 gem 'pg'
+gem 'annotate'
 
 # Web server
 gem 'puma', '~> 3.0'

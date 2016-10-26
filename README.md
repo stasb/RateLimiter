@@ -22,10 +22,11 @@ for the correct detection of a throttle event.
 ## How to run
 
 1. `bundle install`
-2. `bundle exec rake db:setup`
-3. `bundle exec rake db:migrate`
-4. `bundle exec rails s`
-5. Visit localhost:3000 at the root path
+2. start postgres on your machine
+3. `bundle exec rake db:setup`
+4. `bundle exec rake db:migrate`
+5. `bundle exec rails s`
+6. Visit localhost:3000 at the root path
 
 ## Tests
 

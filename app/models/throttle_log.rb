@@ -11,4 +11,5 @@
 #
 
 class ThrottleLog < ActiveRecord::Base
+  validates_presence_of :ip_address, :expiry_time, :count
 end

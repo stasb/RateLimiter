@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe RateThrottler::ThrottleChecker do
-  context 'requested for the first time' do
-    let (:throttle_checker) { RateThrottler::ThrottleChecker.new('test_ip_address') }
+  let(:throttle_checker) { RateThrottler::ThrottleChecker.new('test_ip_address') }
 
+  context 'requested for the first time' do
     describe '#check_for_throttling' do
       it 'should create a throttle log' do
         throttle_checker.check_for_throttling
@@ -26,7 +26,6 @@ describe RateThrottler::ThrottleChecker do
   end
 
   context 'requested in subsequent times' do
-    let(:throttle_checker) { RateThrottler::ThrottleChecker.new('test_ip_address') }
     let!(:throttle_log) { create(:throttle_log, ip_address: 'test_ip_address', count: 45, expiry_time: Time.now + 1.hour ) }
 
     describe '#check_for_throttling' do
@@ -44,9 +43,8 @@ describe RateThrottler::ThrottleChecker do
     end
   end
 
-  context 'going over the request limit (over 100)' do
-    let(:throttle_checker) { RateThrottler::ThrottleChecker.new('test_ip_address') }
-    let!(:throttle_log) { create(:throttle_log, ip_address: 'test_ip_address', count: 110, expiry_time: Time.now + 1.hour ) }
+  context 'reaching the request limit' do
+    let!(:throttle_log) { create(:throttle_log, ip_address: 'test_ip_address', count: 100, expiry_time: Time.now + 1.hour ) }
 
     describe '#check_for_throttling' do
       it 'should return true for throttled' do
@@ -64,8 +62,7 @@ describe RateThrottler::ThrottleChecker do
   end
 
   context 'moving past the expiry time' do
-    let(:throttle_checker) { RateThrottler::ThrottleChecker.new('test_ip_address') }
-    let!(:throttle_log) { create(:throttle_log, ip_address: 'test_ip_address', count: 110, expiry_time: Time.now + 1.hour ) }
+    let!(:throttle_log) { create(:throttle_log, ip_address: 'test_ip_address', count: 100, expiry_time: Time.now + 1.hour ) }
 
     describe '#check_for_throttling' do
       it 'should return true for throttled (still before expiry time)' do

@@ -22,7 +22,9 @@ group :development, :test do
 end
 
 group :development do
+  gem 'listen'
   gem 'database_cleaner'
+  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :test do

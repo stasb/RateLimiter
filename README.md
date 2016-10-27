@@ -16,7 +16,9 @@ ip_address column on the throttle_log table for fast lookup.
 The rate throttler module is included in ApplicationController, where a private method is defined that responds with the correct 429 HTTP code and error message, from the result of the module method being called.
 This method is set as a before_action within HomeController, which runs before the #index action.
 
-I have written specs that test both the throttler class, as well as the controller method itself. These test a range of scenarios and logic paths. I used the Timecop gem in the module spec, in order to simulate moving past the expiry time, and testing
+In order to prevent throttle log record build up, I am using the whenever gem to create a cron schedule, which deletes old throttle log records that have passed their expiry.
+
+I have written specs that test the throttler class, the controller method, and clean up service. These test a range of scenarios and logic paths. I used the Timecop gem in the module and clean up specs in order to simulate moving past the expiry time, and testing
 for the correct detection of a throttle event.
 
 ## How to run
@@ -38,3 +40,4 @@ for the correct detection of a throttle event.
 - implement throttle logic within the Rack layer, as opposed to a lib module
 - have greater customisation of throttling logic, so that different limits can be imposed across varied controllers and actions. A DSL could be implemented for easy declaration of throttle logic within
 the app, which I have noticed the popular throttling gems do
+- use environment variables to set throttle limit and time parameters instead of using constants

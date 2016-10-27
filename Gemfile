@@ -9,6 +9,9 @@ ruby '2.3.1'
 gem 'pg'
 gem 'annotate'
 
+# Cron jobs
+gem 'whenever'
+
 # Web server
 gem 'puma', '~> 3.0'
 
